@@ -54,6 +54,17 @@ async function run() {
       res.send(result);
     });
 
+    // READ for specific user
+    app.get("/my-art-&-craft-list/:email", async (req, res) => {
+      const email = req.params.email;
+      const query = {
+        user_email: email,
+      };
+      const cursor = craftItemsCollection.find(query);
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");

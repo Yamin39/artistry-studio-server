@@ -1,4 +1,4 @@
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
@@ -39,10 +39,18 @@ async function run() {
       res.send(result);
     });
 
-    // READ
+    // READ Many
     app.get("/craft-items", async (req, res) => {
       const cursor = craftItemsCollection.find();
       const result = await cursor.toArray();
+      res.send(result);
+    });
+
+    // READ One
+    app.get("/craft-items/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await craftItemsCollection.findOne(query);
       res.send(result);
     });
 

@@ -66,6 +66,19 @@ async function run() {
       res.send(result);
     });
 
+    // READ to filter by Customization
+    app.get("/my-art-&-craft-list/:email/:customization", async (req, res) => {
+      const email = req.params.email;
+      const customization = req.params.customization;
+      const query = {
+        user_email: email,
+        customization: customization,
+      };
+      const cursor = craftItemsCollection.find(query);
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
     // UPDATE a craft item
     app.patch("/craft-items/:id", async (req, res) => {
       const id = req.params.id;

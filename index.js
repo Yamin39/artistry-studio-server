@@ -66,7 +66,29 @@ async function run() {
       res.send(result);
     });
 
-    // DELETE craft item
+    // UPDATE a craft item
+    app.patch("/craft-items/:id", async (req, res) => {
+      const id = req.params.id;
+      const updatedCraftItem = req.body;
+      const filter = { _id: new ObjectId(id) };
+      const craftItem = {
+        $set: {
+          imageURL: updatedCraftItem.imageURL,
+          name: updatedCraftItem.name,
+          subcategory_name: updatedCraftItem.subcategory_name,
+          short_description: updatedCraftItem.short_description,
+          price: updatedCraftItem.price,
+          rating: updatedCraftItem.rating,
+          customization: updatedCraftItem.customization,
+          processing_time: updatedCraftItem.processing_time,
+          stockStatus: updatedCraftItem.stockStatus,
+        },
+      };
+      const result = await craftItemsCollection.updateOne(filter, craftItem);
+      res.send(result);
+    });
+
+    // DELETE a craft item
     app.delete("/craft-items/:id", async (req, res) => {
       const id = req.params.id;
       console.log(id);

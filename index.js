@@ -36,6 +36,7 @@ async function run() {
       const newItem = req.body;
       console.log(newItem);
       const result = await craftItemsCollection.insertOne(newItem);
+      console.log(req.query);
       res.send(result);
     });
 
@@ -62,6 +63,15 @@ async function run() {
       };
       const cursor = craftItemsCollection.find(query);
       const result = await cursor.toArray();
+      res.send(result);
+    });
+
+    // DELETE craft item
+    app.delete("/craft-items/:id", async (req, res) => {
+      const id = req.params.id;
+      console.log(id);
+      const query = { _id: new ObjectId(id) };
+      const result = await craftItemsCollection.deleteOne(query);
       res.send(result);
     });
 

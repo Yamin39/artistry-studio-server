@@ -29,6 +29,7 @@ async function run() {
 
     // collections
     const craftItemsCollection = client.db("artistryStudioDB").collection("craftItems");
+    const subcategoriesCollection = client.db("artistryStudioDB").collection("subcategories");
 
     // art & craft items CRUD
     // CREATE
@@ -107,6 +108,14 @@ async function run() {
       console.log(id);
       const query = { _id: new ObjectId(id) };
       const result = await craftItemsCollection.deleteOne(query);
+      res.send(result);
+    });
+
+    // subcategories CRUD operations
+    // READ subcategories
+    app.get("/subcategories", async (req, res) => {
+      const cursor = subcategoriesCollection.find();
+      const result = await cursor.toArray();
       res.send(result);
     });
 
